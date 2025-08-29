@@ -39,7 +39,7 @@ let myNums = [2, 4, 6]
 print("Recursive sum: \(recursiveSum(myNums))")
 
 /// Two sum together
-func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int)? {
+func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int) {
     for i in 0..<nums.count {
         for j in (i + 1)..<nums.count {
             if nums[i] + nums[j] == target {
@@ -47,7 +47,25 @@ func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int)? {
             }
         }
     }
-    return nil
+    return (-1, -1)
 }
 
-print("Two numbers sum target: \(twoSumV1([2, 7, 11, 15], 9) ?? (-1, -1))")
+print("Two numbers sum target: \(twoSumV1([2, 7, 11, 15], 9))")
+
+/// Two sum with dictionary
+func twoSumV2(_ nums: [Int], _ target: Int) -> (Int, Int) {
+    var map: [Int: Int] = [:]
+    
+    for i in 0..<nums.count {
+        let complement = target - nums[i]
+        if let j = map[complement] {
+            return (j, i)
+        }
+        
+        map[nums[i]] = i
+    }
+    
+    return (-1, -1)
+}
+
+print("Two numbers sum target with dictionary: \(twoSumV2([2, 7, 11, 15], 9))")
