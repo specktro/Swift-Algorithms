@@ -38,3 +38,16 @@ func recursiveSum(_ nums: [Int]) -> Int {
 let myNums = [2, 4, 6]
 print("Recursive sum: \(recursiveSum(myNums))")
 
+/// Two sum together
+func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int)? {
+    for i in 0..<nums.count {
+        for j in (i + 1)..<nums.count {
+            if nums[i] + nums[j] == target {
+                return (i, j)
+            }
+        }
+    }
+    return nil
+}
+
+print("Two numbers sum target: \(twoSumV1([2, 7, 11, 15], 9) ?? (-1, -1))")
