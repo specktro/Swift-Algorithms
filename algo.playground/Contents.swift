@@ -23,10 +23,11 @@ func binarySearch(arr: [Int] ,item: Int) -> Int {
 }
 
 let myList = [1, 3, 5, 7, 9]
+print("=== BINARY SEARCH TESTING ===")
 print(binarySearch(arr: myList, item: 5))
 print(binarySearch(arr: myList, item: -1))
 
-/// sum recursive function
+/// Sum recursive function
 func recursiveSum(_ nums: [Int]) -> Int {
     if nums.isEmpty {
         return 0
@@ -35,8 +36,8 @@ func recursiveSum(_ nums: [Int]) -> Int {
     }
 }
 
-let myNums = [2, 4, 6]
-print("Recursive sum: \(recursiveSum(myNums))")
+print("=== TWO RECURSIVE SUM TESTING ===")
+print("Recursive sum: \(recursiveSum([2, 4, 6]))")
 
 /// Two sum together
 func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int) {
@@ -50,6 +51,7 @@ func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int) {
     return (-1, -1)
 }
 
+print("=== TWO SUM NOT OPTIMIZED TESTING ===")
 print("Two numbers sum target: \(twoSumV1([2, 7, 11, 15], 9))")
 
 /// Two sum with dictionary
@@ -68,4 +70,96 @@ func twoSumV2(_ nums: [Int], _ target: Int) -> (Int, Int) {
     return (-1, -1)
 }
 
-print("Two numbers sum target with dictionary: \(twoSumV2([2, 7, 11, 15], 9))")
+print("=== TWO SUM NUMBER WITH DICTIONARY TESTING ===")
+print("Two numbers sum target with dictionary: \(twoSumV2([2, 7, 11, 15], 9))") //
+
+/// Balanced parenthesis
+func isBalanced(_ s: String) -> Bool {
+    var stack: [Character] = []
+    let pairs: [Character: Character] = [
+        ")": "(",
+        "]": "[",
+        "}": "{"
+    ]
+    
+    for char in s {
+        if let match = pairs[char] {
+            if stack.isEmpty || stack.removeLast() != match {
+                return false
+            }
+        } else {
+            stack.append(char)
+        }
+    }
+    
+    return stack.isEmpty
+}
+
+print("=== BALANCED PARENTHESES TESTING ===")
+print("Is balanced: \(isBalanced("{[()]}"))")   // true
+print("Is balanced: \(isBalanced("()"))")       // true
+print("Is balanced: \(isBalanced("()[]{}"))")   // true
+print("Is balanced: \(isBalanced("(]{}"))")     // false
+
+/// Balanced parenthesis - OPTIMIZED VERSION
+func isBalancedOptimized(_ s: String) -> Bool {
+    var stack: [Character] = []
+    
+    // Early termination for odd-length strings
+    if s.count % 2 != 0 {
+        return false
+    }
+    
+    // Early termination for empty string
+    if s.isEmpty {
+        return true
+    }
+    
+    // Early termination if first character is closing bracket
+    if s.first == ")" || s.first == "]" || s.first == "}" {
+        return false
+    }
+    
+    let pairs: [Character: Character] = [
+        ")": "(",
+        "]": "[",
+        "}": "{"
+    ]
+    
+    for char in s {
+        if let match = pairs[char] {
+            // If we encounter a closing bracket but stack is empty, it's invalid
+            if stack.isEmpty {
+                return false
+            }
+            // If the top of stack doesn't match the closing bracket, it's invalid
+            if stack.removeLast() != match {
+                return false
+            }
+        } else {
+            // Only push opening brackets
+            if char == "(" || char == "[" || char == "{" {
+                stack.append(char)
+            } else {
+                // If it's not a bracket, we can ignore it or return false depending on requirements
+                // For strict bracket-only validation, return false
+                return false
+            }
+        }
+    }
+    
+    return stack.isEmpty
+}
+
+print("=== OPTIMIZED PARENTHESES TESTING ===")
+print("Is balanced: \(isBalancedOptimized("{[()]}"))")      // true
+print("Is balanced: \(isBalancedOptimized("()"))")          // true
+print("Is balanced: \(isBalancedOptimized("()[]{}"))")      // true
+print("Is balanced: \(isBalancedOptimized("(]{}"))")        // false
+print("Is balanced: \(isBalancedOptimized(""))")            // true
+print("Is balanced: \(isBalancedOptimized("("))")           // false
+print("Is balanced: \(isBalancedOptimized(")"))")           // false
+print("Is balanced: \(isBalancedOptimized("((("))")         // false
+print("Is balanced: \(isBalancedOptimized(")))"))")         // false
+print("Is balanced: \(isBalancedOptimized("({[]})"))")      // true
+print("Is balanced: \(isBalancedOptimized("({[}])"))")      // false

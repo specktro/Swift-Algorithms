@@ -49,6 +49,34 @@ twoSumV2([2, 7, 11, 15], 9) // Returns (0, 1) but way faster
 
 **How it works:** We use a dictionary to remember what we've seen. For each number, we check if its "complement" (target - current_number) exists in our memory. It's like having a photographic memory for numbers - you see a 2, you remember you need a 7 to make 9, and boom! Match found.
 
+### 🧱 Balanced Parentheses - The "Stack Master" Algorithm
+**Time Complexity:** O(n) - One pass through the string, no shortcuts here  
+**Space Complexity:** O(n) - Worst case when everything is an opening bracket (like a never-ending sentence)
+
+I've got TWO versions because I'm fancy like that (again):
+
+#### Version 1: The Basic Stack Approach
+```swift
+isBalanced("{[()]}") // Returns true (because math and brackets)
+isBalanced("(]{}")   // Returns false (because chaos)
+```
+
+**How it works:** We use a stack (like a stack of plates) to keep track of opening brackets. When we see a closing bracket, we check if it matches the top of our stack. It's like making sure every opening parenthesis has a proper closing buddy.
+
+#### Version 2: The OPTIMIZED Stack Approach (O(n) with early termination)
+```swift
+isBalancedOptimized("({[]})") // Returns true
+isBalancedOptimized("({[}])") // Returns false
+```
+
+**How it works:** Same stack magic, but with smart early termination! We check for obvious failures first:
+- Odd-length strings? Nope, can't be balanced
+- Empty string? Sure, that's balanced (philosophically speaking)
+- Starts with a closing bracket? That's like starting a sentence with a period - just wrong
+- Non-bracket characters? We're strict about our bracket-only policy
+
+**Why it's optimal:** We catch invalid cases early and avoid unnecessary processing. It's like checking if your car keys are in your pocket before starting the engine.
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -68,6 +96,12 @@ let myNums = [1, 2, 3, 4, 5]
 print("Recursive sum: \(recursiveSum(myNums))") // Sum all numbers
 
 print("Two sum target: \(twoSumV1([1, 2, 3, 4, 5], 7))") // Find pairs that sum to 7
+
+// Test your parentheses balancing skills
+print("Balanced: \(isBalancedOptimized("{[()]}"))")        // true
+print("Balanced: \(isBalancedOptimized("({[}])"))")        // false
+print("Balanced: \(isBalancedOptimized("()[]{}"))")        // true
+print("Balanced: \(isBalancedOptimized("((("))")           // false
 ```
 
 ## 🤓 Why Did I Make This?
