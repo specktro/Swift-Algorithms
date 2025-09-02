@@ -77,6 +77,21 @@ isBalancedOptimized("({[}])") // Returns false
 
 **Why it's optimal:** We catch invalid cases early and avoid unnecessary processing. It's like checking if your car keys are in your pocket before starting the engine.
 
+### 📈 Maximum Subarray - The "Kadane's Algorithm" (But I Call It "The Profit Maximizer")
+**Time Complexity:** O(n) - One pass through the array, because we're not savages who check every possible subarray!  
+**Space Complexity:** O(1) - We're memory efficient, like a minimalist who only tracks what matters
+
+```swift
+let subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+maximumSubArray(subarray) // Returns [4, -1, 2, 1] (sum = 6)
+```
+
+**How it works:** This is Kadane's Algorithm in disguise! We keep track of the current sum and the maximum sum we've seen so far. If adding the current number makes our sum worse than just starting fresh with that number, we start a new subarray. It's like being a smart investor - if your current portfolio is losing money, sometimes it's better to start fresh with a new investment.
+
+**The magic:** We use two pointers (`bestStart` and `bestEnd`) to remember where our best subarray begins and ends. It's like marking the best part of a movie so you can skip to it later.
+
+**Real-world analogy:** Imagine you're a day trader looking for the best consecutive days to buy and sell stocks. You want to find the contiguous sequence of days that gives you the maximum profit. This algorithm finds exactly that!
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -102,6 +117,11 @@ print("Balanced: \(isBalancedOptimized("{[()]}"))")        // true
 print("Balanced: \(isBalancedOptimized("({[}])"))")        // false
 print("Balanced: \(isBalancedOptimized("()[]{}"))")        // true
 print("Balanced: \(isBalancedOptimized("((("))")           // false
+
+// Test your maximum subarray skills
+let subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+print("Max subarray: \(maximumSubArray(subarray))")        // [4, -1, 2, 1]
+print("Max subarray: \(maximumSubArray([1, -2, 3, 4]))")   // [3, 4]
 ```
 
 ## 🤓 Why Did I Make This?

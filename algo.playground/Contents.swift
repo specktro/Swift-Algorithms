@@ -163,3 +163,36 @@ print("Is balanced: \(isBalancedOptimized("((("))")         // false
 print("Is balanced: \(isBalancedOptimized(")))"))")         // false
 print("Is balanced: \(isBalancedOptimized("({[]})"))")      // true
 print("Is balanced: \(isBalancedOptimized("({[}])"))")      // false
+
+
+/// Maximum sub array
+func maximumSubArray(_ nums: [Int]) -> [Int] {
+    var currentSum = nums[0]
+    var maxSum = nums[0]
+    var start = 0
+    var bestStart = 0
+    var bestEnd = 0
+    
+    for i in 1..<nums.count {
+        if nums[i] > currentSum + nums[i] {
+            currentSum = nums[i]
+            start = i
+        } else {
+            currentSum += nums[i]
+        }
+        
+        if currentSum > maxSum {
+            maxSum = currentSum
+            bestStart = start
+            bestEnd = i
+        }
+    }
+    
+    return Array(nums[bestStart...bestEnd])
+}
+
+print("=== MAXIMUM SUBARRAY TESTING ===")
+var subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
+subarray = [1, -2, 3, 4]
+print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
