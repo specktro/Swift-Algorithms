@@ -79,18 +79,30 @@ isBalancedOptimized("({[}])") // Returns false
 
 ### 📈 Maximum Subarray - The "Kadane's Algorithm" (But I Call It "The Profit Maximizer")
 **Time Complexity:** O(n) - One pass through the array, because we're not savages who check every possible subarray!  
-**Space Complexity:** O(1) - We're memory efficient, like a minimalist who only tracks what matters
+**Space Complexity:** O(n) for array version, O(1) for sum-only version
 
+I've got TWO versions because I'm fancy like that (again, again):
+
+#### Version 1: The Optimized Array Approach (O(n) space)
 ```swift
 let subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 maximumSubArray(subarray) // Returns [4, -1, 2, 1] (sum = 6)
 ```
 
-**How it works:** This is Kadane's Algorithm in disguise! We keep track of the current sum and the maximum sum we've seen so far. If adding the current number makes our sum worse than just starting fresh with that number, we start a new subarray. It's like being a smart investor - if your current portfolio is losing money, sometimes it's better to start fresh with a new investment.
+**How it works:** This is Kadane's Algorithm with edge case handling! We keep track of the current sum and the maximum sum we've seen so far. If our current sum becomes negative, we start fresh with the current number. It's like being a smart investor - if your current portfolio is losing money, sometimes it's better to start fresh with a new investment.
 
 **The magic:** We use two pointers (`bestStart` and `bestEnd`) to remember where our best subarray begins and ends. It's like marking the best part of a movie so you can skip to it later.
 
-**Real-world analogy:** Imagine you're a day trader looking for the best consecutive days to buy and sell stocks. You want to find the contiguous sequence of days that gives you the maximum profit. This algorithm finds exactly that!
+#### Version 2: The ULTRA OPTIMIZED Sum-Only Approach (O(1) space)
+```swift
+maximumSubArraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4]) // Returns 6 (just the sum)
+```
+
+**How it works:** Same Kadane's magic, but we only care about the sum! We use `max()` functions to keep the code clean and minimal. It's like asking "what's the maximum profit?" without caring about which specific days you traded.
+
+**Why it's ultra-optimized:** No array slicing, minimal variables, and O(1) space complexity. Perfect for when you only need the answer, not the actual subarray.
+
+**Real-world analogy:** Imagine you're a day trader looking for the best consecutive days to buy and sell stocks. Version 1 tells you exactly which days to trade, Version 2 just tells you the maximum profit you can make.
 
 ## 🎮 How to Use This Playground
 
@@ -122,6 +134,10 @@ print("Balanced: \(isBalancedOptimized("((("))")           // false
 let subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 print("Max subarray: \(maximumSubArray(subarray))")        // [4, -1, 2, 1]
 print("Max subarray: \(maximumSubArray([1, -2, 3, 4]))")   // [3, 4]
+
+// Test the ultra-optimized sum-only version
+print("Max sum: \(maximumSubArraySum(subarray))")          // 6
+print("Max sum: \(maximumSubArraySum([-1, -2, -3]))")      // -1
 ```
 
 ## 🤓 Why Did I Make This?
