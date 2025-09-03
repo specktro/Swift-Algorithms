@@ -165,8 +165,14 @@ print("Is balanced: \(isBalancedOptimized("({[]})"))")      // true
 print("Is balanced: \(isBalancedOptimized("({[}])"))")      // false
 
 
-/// Maximum sub array
+/// Maximum sub array - OPTIMIZED VERSION
 func maximumSubArray(_ nums: [Int]) -> [Int] {
+    // Edge case: empty array
+    guard !nums.isEmpty else { return [] }
+    
+    // Edge case: single element
+    guard nums.count > 1 else { return nums }
+    
     var currentSum = nums[0]
     var maxSum = nums[0]
     var start = 0
@@ -174,13 +180,15 @@ func maximumSubArray(_ nums: [Int]) -> [Int] {
     var bestEnd = 0
     
     for i in 1..<nums.count {
-        if nums[i] > currentSum + nums[i] {
+        // Simplified condition: if currentSum < 0, start fresh
+        if currentSum < 0 {
             currentSum = nums[i]
             start = i
         } else {
             currentSum += nums[i]
         }
         
+        // Update best subarray if we found a better one
         if currentSum > maxSum {
             maxSum = currentSum
             bestStart = start
@@ -196,3 +204,25 @@ var subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
 subarray = [1, -2, 3, 4]
 print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
+
+/// Maximum sub array - ULTRA OPTIMIZED (returns just the sum, not the array)
+func maximumSubArraySum(_ nums: [Int]) -> Int {
+    guard !nums.isEmpty else { return 0 }
+    
+    var currentSum = nums[0]
+    var maxSum = nums[0]
+    
+    for i in 1..<nums.count {
+        currentSum = max(nums[i], currentSum + nums[i])
+        maxSum = max(maxSum, currentSum)
+    }
+    
+    return maxSum
+}
+
+print("=== MAXIMUM SUBARRAY SUM TESTING (ULTRA OPTIMIZED) ===")
+print("Max sum from [-2, 1, -3, 4, -1, 2, 1, -5, 4]: \(maximumSubArraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4]))")
+print("Max sum from [1, -2, 3, 4]: \(maximumSubArraySum([1, -2, 3, 4]))")
+print("Max sum from [-1, -2, -3]: \(maximumSubArraySum([-1, -2, -3]))")
+print("Max sum from [5]: \(maximumSubArraySum([5]))")
+print("Max sum from []: \(maximumSubArraySum([]))")
