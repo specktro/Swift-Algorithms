@@ -226,3 +226,161 @@ print("Max sum from [1, -2, 3, 4]: \(maximumSubArraySum([1, -2, 3, 4]))")
 print("Max sum from [-1, -2, -3]: \(maximumSubArraySum([-1, -2, -3]))")
 print("Max sum from [5]: \(maximumSubArraySum([5]))")
 print("Max sum from []: \(maximumSubArraySum([]))")
+
+/// Palindrome string validation
+func isPalindrome(_ s: String) -> Bool {
+    let cleaned = s.lowercased().filter { $0.isLetter || $0.isNumber }
+    let chars = Array(cleaned)
+    var left = 0
+    var right = chars.count - 1
+    
+    while left < right {
+        if chars[left] != chars[right] {
+            return false
+        }
+        
+        left += 1
+        right -= 1
+    }
+    
+    return true
+}
+
+print("=== PALINDROME STRING VALIDATION TESTING ===")
+print(isPalindrome("A man, a plan, a canal: Panama"))   // true
+print(isPalindrome("race a car"))                       // false
+print(isPalindrome(""))                                 // true
+print(isPalindrome("a"))                                // true
+
+/// Reverse linked list algorithm
+// Node definition
+final class ListNode {
+    var val: Int
+    var next: ListNode?
+    
+    init(_ val: Int) {
+        self.val = val
+        self.next = nil
+    }
+}
+
+func reverseList(_ head: ListNode?) -> ListNode? {
+    var prev: ListNode? = nil
+    var current = head
+    
+    while current != nil {
+        let next = current!.next
+        current!.next = prev
+        prev = current
+        current = next
+    }
+    
+    return prev  // prev is now the new head!
+}
+
+// Helper function to create a linked list from array
+func createLinkedList(_ values: [Int]) -> ListNode? {
+    guard !values.isEmpty else { return nil }
+    
+    let head = ListNode(values[0])
+    var current = head
+    
+    for i in 1..<values.count {
+        current.next = ListNode(values[i])
+        current = current.next!
+    }
+    
+    return head
+}
+
+// Helper function to convert linked list back to array for easy testing
+func linkedListToArray(_ head: ListNode?) -> [Int] {
+    var result: [Int] = []
+    var current = head
+    
+    while current != nil {
+        result.append(current!.val)
+        current = current!.next
+    }
+    
+    return result
+}
+
+// Helper function to print linked list
+func printLinkedList(_ head: ListNode?) {
+    var current = head
+    var result: [String] = []
+    
+    while current != nil {
+        result.append("\(current!.val)")
+        current = current!.next
+    }
+    
+    print(result.joined(separator: " → ") + " → nil")
+}
+
+print("=== Testing Reverse Linked List ===\n")
+// Test 1: Normal case
+print("Test 1: Normal case [1, 2, 3, 4, 5]")
+let list1 = createLinkedList([1, 2, 3, 4, 5])
+print("Original: ", terminator: "")
+printLinkedList(list1)
+let reversed1 = reverseList(list1)
+print("Reversed: ", terminator: "")
+printLinkedList(reversed1)
+print("Expected: 5 → 4 → 3 → 2 → 1 → nil")
+print("Result: \(linkedListToArray(reversed1))")
+print()
+// Test 2: Two elements
+print("Test 2: Two elements [1, 2]")
+let list2 = createLinkedList([1, 2])
+print("Original: ", terminator: "")
+printLinkedList(list2)
+let reversed2 = reverseList(list2)
+print("Reversed: ", terminator: "")
+printLinkedList(reversed2)
+print("Expected: [2, 1]")
+print("Result: \(linkedListToArray(reversed2))")
+print()
+
+// Test 3: Single element
+print("Test 3: Single element [42]")
+let list3 = createLinkedList([42])
+print("Original: ", terminator: "")
+printLinkedList(list3)
+let reversed3 = reverseList(list3)
+print("Reversed: ", terminator: "")
+printLinkedList(reversed3)
+print("Expected: [42]")
+print("Result: \(linkedListToArray(reversed3))")
+print()
+
+// Test 4: Empty list
+print("Test 4: Empty list []")
+let list4 = createLinkedList([])
+print("Original: ", terminator: "")
+printLinkedList(list4)
+let reversed4 = reverseList(list4)
+print("Reversed: ", terminator: "")
+printLinkedList(reversed4)
+print("Expected: []")
+print("Result: \(linkedListToArray(reversed4))")
+print()
+
+// Test 5: Larger list
+print("Test 5: Larger list [10, 20, 30, 40, 50, 60]")
+let list5 = createLinkedList([10, 20, 30, 40, 50, 60])
+print("Original: ", terminator: "")
+printLinkedList(list5)
+let reversed5 = reverseList(list5)
+print("Reversed: ", terminator: "")
+printLinkedList(reversed5)
+print("Expected: [60, 50, 40, 30, 20, 10]")
+print("Result: \(linkedListToArray(reversed5))")
+print()
+
+// Test 6: Manual verification
+print("Test 6: Manual step-by-step trace [1, 2, 3]")
+let list6 = createLinkedList([1, 2, 3])
+print("Original: ", terminator: "")
+printLinkedList(list6)

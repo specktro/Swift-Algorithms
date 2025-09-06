@@ -104,6 +104,35 @@ maximumSubArraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4]) // Returns 6 (just the sum)
 
 **Real-world analogy:** Imagine you're a day trader looking for the best consecutive days to buy and sell stocks. Version 1 tells you exactly which days to trade, Version 2 just tells you the maximum profit you can make.
 
+### 🔤 Palindrome String Validation - The "Mirror Mirror" Algorithm
+**Time Complexity:** O(n) - We gotta check every character, no shortcuts here  
+**Space Complexity:** O(n) - We create a cleaned string, but it's worth it for readability
+
+```swift
+isPalindrome("A man, a plan, a canal: Panama") // Returns true (because it's a palindrome!)
+isPalindrome("race a car")                     // Returns false (because it's not!)
+```
+
+**How it works:** We clean the string by removing all non-alphanumeric characters and converting to lowercase. Then we use two pointers (left and right) that move towards each other, comparing characters. It's like checking if a word reads the same forwards and backwards, but we're smart enough to ignore spaces and punctuation.
+
+**The magic:** We filter out all the noise (spaces, punctuation, case differences) and just focus on the actual letters and numbers. It's like having a conversation with someone who mumbles - you filter out the "umms" and "ahhs" and just listen to the important parts.
+
+### 🔗 Reverse Linked List - The "U-Turn" Algorithm
+**Time Complexity:** O(n) - One pass through the list, because we're not savages who traverse it multiple times!  
+**Space Complexity:** O(1) - We only use a few pointers, like a minimalist who only owns what they need
+
+```swift
+let head = createLinkedList([1, 2, 3, 4, 5])
+let reversed = reverseList(head)
+linkedListToArray(reversed) // Returns [5, 4, 3, 2, 1]
+```
+
+**How it works:** We use three pointers: `prev`, `current`, and `next`. We traverse the list once, reversing the links as we go. It's like flipping a chain of paper clips - you go through each one and reverse its direction.
+
+**The magic:** We don't create a new list, we just flip the existing links! It's like turning a one-way street into a two-way street by just changing the direction signs. We use `prev` to remember where we came from, `current` for where we are, and `next` to remember where we're going.
+
+**Real-world analogy:** Imagine you have a chain of people holding hands, and you want to reverse the order. You go through each person, have them let go of the person in front and grab the person behind them instead. By the end, the chain is completely reversed!
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -138,6 +167,16 @@ print("Max subarray: \(maximumSubArray([1, -2, 3, 4]))")   // [3, 4]
 // Test the ultra-optimized sum-only version
 print("Max sum: \(maximumSubArraySum(subarray))")          // 6
 print("Max sum: \(maximumSubArraySum([-1, -2, -3]))")      // -1
+
+// Test your palindrome skills
+print("Palindrome: \(isPalindrome("A man, a plan, a canal: Panama"))") // true
+print("Palindrome: \(isPalindrome("race a car"))")                     // false
+print("Palindrome: \(isPalindrome(""))")                               // true
+
+// Test your linked list reversal skills
+let head = createLinkedList([1, 2, 3, 4, 5])
+let reversed = reverseList(head)
+print("Reversed: \(linkedListToArray(reversed))")          // [5, 4, 3, 2, 1]
 ```
 
 ## 🤓 Why Did I Make This?
