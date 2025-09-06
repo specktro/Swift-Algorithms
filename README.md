@@ -133,6 +133,28 @@ linkedListToArray(reversed) // Returns [5, 4, 3, 2, 1]
 
 **Real-world analogy:** Imagine you have a chain of people holding hands, and you want to reverse the order. You go through each person, have them let go of the person in front and grab the person behind them instead. By the end, the chain is completely reversed!
 
+### 🔄 Cycle Detection in Linked List - The "Tortoise and Hare" Algorithm
+**Time Complexity:** O(n) - We'll find the cycle in at most one full traversal, because math is cool like that  
+**Space Complexity:** O(1) - We only use two pointers, like a minimalist who only owns what they need
+
+```swift
+let nodeA = ListNode(1)
+let nodeB = ListNode(2)
+let nodeC = ListNode(3)
+nodeA.next = nodeB
+nodeB.next = nodeC
+nodeC.next = nodeB  // Creates cycle: 1→2→3→2→3→2...
+hasCycle(nodeA) // Returns true (because there's a cycle!)
+```
+
+**How it works:** We use two pointers: a "slow" pointer (tortoise) that moves one step at a time, and a "fast" pointer (hare) that moves two steps at a time. If there's a cycle, the fast pointer will eventually catch up to the slow pointer. It's like having two people run around a circular track - the faster one will eventually lap the slower one!
+
+**The magic:** If there's no cycle, the fast pointer will reach the end and we return false. If there's a cycle, the fast pointer will eventually meet the slow pointer inside the cycle, and we return true. It's like a detective story where the hare always catches the tortoise if they're running in circles!
+
+**Why it's brilliant:** We don't need extra memory to store visited nodes. We just use the mathematical property that if there's a cycle, the fast pointer will eventually meet the slow pointer. It's like solving a puzzle without writing anything down - pure brain power!
+
+**Real-world analogy:** Imagine you're following someone in a car, and they're driving in circles. If you drive twice as fast as them, you'll eventually catch up to them. But if they're driving in a straight line, you'll never catch up because you'll reach the end first. That's exactly how this algorithm works!
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -177,6 +199,16 @@ print("Palindrome: \(isPalindrome(""))")                               // true
 let head = createLinkedList([1, 2, 3, 4, 5])
 let reversed = reverseList(head)
 print("Reversed: \(linkedListToArray(reversed))")          // [5, 4, 3, 2, 1]
+
+// Test your cycle detection skills
+let nodeA = ListNode(1)
+let nodeB = ListNode(2)
+let nodeC = ListNode(3)
+nodeA.next = nodeB
+nodeB.next = nodeC
+nodeC.next = nodeB  // Creates cycle
+print("Has cycle: \(hasCycle(nodeA))")                     // true
+print("Has cycle: \(hasCycle(createLinkedList([1, 2, 3])))") // false
 ```
 
 ## 🤓 Why Did I Make This?

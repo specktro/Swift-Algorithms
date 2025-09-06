@@ -36,7 +36,7 @@ func recursiveSum(_ nums: [Int]) -> Int {
     }
 }
 
-print("=== TWO RECURSIVE SUM TESTING ===")
+print("\n=== TWO RECURSIVE SUM TESTING ===")
 print("Recursive sum: \(recursiveSum([2, 4, 6]))")
 
 /// Two sum together
@@ -51,7 +51,7 @@ func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int) {
     return (-1, -1)
 }
 
-print("=== TWO SUM NOT OPTIMIZED TESTING ===")
+print("\n=== TWO SUM NOT OPTIMIZED TESTING ===")
 print("Two numbers sum target: \(twoSumV1([2, 7, 11, 15], 9))")
 
 /// Two sum with dictionary
@@ -70,7 +70,7 @@ func twoSumV2(_ nums: [Int], _ target: Int) -> (Int, Int) {
     return (-1, -1)
 }
 
-print("=== TWO SUM NUMBER WITH DICTIONARY TESTING ===")
+print("\n=== TWO SUM NUMBER WITH DICTIONARY TESTING ===")
 print("Two numbers sum target with dictionary: \(twoSumV2([2, 7, 11, 15], 9))") //
 
 /// Balanced parenthesis
@@ -95,7 +95,7 @@ func isBalanced(_ s: String) -> Bool {
     return stack.isEmpty
 }
 
-print("=== BALANCED PARENTHESES TESTING ===")
+print("\n=== BALANCED PARENTHESES TESTING ===")
 print("Is balanced: \(isBalanced("{[()]}"))")   // true
 print("Is balanced: \(isBalanced("()"))")       // true
 print("Is balanced: \(isBalanced("()[]{}"))")   // true
@@ -151,7 +151,7 @@ func isBalancedOptimized(_ s: String) -> Bool {
     return stack.isEmpty
 }
 
-print("=== OPTIMIZED PARENTHESES TESTING ===")
+print("\n=== OPTIMIZED PARENTHESES TESTING ===")
 print("Is balanced: \(isBalancedOptimized("{[()]}"))")      // true
 print("Is balanced: \(isBalancedOptimized("()"))")          // true
 print("Is balanced: \(isBalancedOptimized("()[]{}"))")      // true
@@ -199,7 +199,7 @@ func maximumSubArray(_ nums: [Int]) -> [Int] {
     return Array(nums[bestStart...bestEnd])
 }
 
-print("=== MAXIMUM SUBARRAY TESTING ===")
+print("\n=== MAXIMUM SUBARRAY TESTING ===")
 var subarray = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
 subarray = [1, -2, 3, 4]
@@ -220,7 +220,7 @@ func maximumSubArraySum(_ nums: [Int]) -> Int {
     return maxSum
 }
 
-print("=== MAXIMUM SUBARRAY SUM TESTING (ULTRA OPTIMIZED) ===")
+print("\n=== MAXIMUM SUBARRAY SUM TESTING (ULTRA OPTIMIZED) ===")
 print("Max sum from [-2, 1, -3, 4, -1, 2, 1, -5, 4]: \(maximumSubArraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4]))")
 print("Max sum from [1, -2, 3, 4]: \(maximumSubArraySum([1, -2, 3, 4]))")
 print("Max sum from [-1, -2, -3]: \(maximumSubArraySum([-1, -2, -3]))")
@@ -246,7 +246,7 @@ func isPalindrome(_ s: String) -> Bool {
     return true
 }
 
-print("=== PALINDROME STRING VALIDATION TESTING ===")
+print("\n=== PALINDROME STRING VALIDATION TESTING ===")
 print(isPalindrome("A man, a plan, a canal: Panama"))   // true
 print(isPalindrome("race a car"))                       // false
 print(isPalindrome(""))                                 // true
@@ -319,7 +319,7 @@ func printLinkedList(_ head: ListNode?) {
     print(result.joined(separator: " → ") + " → nil")
 }
 
-print("=== Testing Reverse Linked List ===\n")
+print("\n=== REVERSE LINKED LIST TESTING ===\n")
 // Test 1: Normal case
 print("Test 1: Normal case [1, 2, 3, 4, 5]")
 let list1 = createLinkedList([1, 2, 3, 4, 5])
@@ -384,3 +384,46 @@ print("Test 6: Manual step-by-step trace [1, 2, 3]")
 let list6 = createLinkedList([1, 2, 3])
 print("Original: ", terminator: "")
 printLinkedList(list6)
+
+/// Detect cycles in a linked list
+func hasCycle(_ head: ListNode?) -> Bool {
+    var slow: ListNode? = head
+    var fast: ListNode? = head
+    
+    while fast != nil && fast!.next != nil {
+        slow = slow?.next
+        fast = fast?.next?.next
+        
+        if slow === fast {
+            return true
+        }
+    }
+    
+    return false
+}
+
+print("\n=== DETECT CYCLE IN LINKED LIST TESTING ===")
+// Test 1: No cycle
+let node1 = ListNode(1)
+let node2 = ListNode(2)
+let node3 = ListNode(3)
+node1.next = node2
+node2.next = node3
+print(hasCycle(node1))  // false
+
+// Test 2: Has cycle
+let nodeA = ListNode(1)
+let nodeB = ListNode(2)
+let nodeC = ListNode(3)
+nodeA.next = nodeB
+nodeB.next = nodeC
+nodeC.next = nodeB  // Creates cycle: 1→2→3→2→3→2...
+print(hasCycle(nodeA))  // true
+
+// Test 3: Single node cycle
+let singleNode = ListNode(1)
+singleNode.next = singleNode  // Points to itself
+print(hasCycle(singleNode))  // true
+
+// Test 4: Empty list
+print(hasCycle(nil))  // false
