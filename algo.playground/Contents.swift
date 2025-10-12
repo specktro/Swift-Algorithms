@@ -427,3 +427,18 @@ print(hasCycle(singleNode))  // true
 
 // Test 4: Empty list
 print(hasCycle(nil))  // false
+
+print("\n=== QUICK UNION-FIND ALGORTIHM TESTING ===")
+var quickFind = QuickFind(size: 10)
+quickFind.union(p: 4, q: 3)
+quickFind.union(p: 3, q: 8)
+quickFind.union(p: 6, q: 5)
+quickFind.union(p: 9, q: 4)
+quickFind.union(p: 1, q: 2)
+print(quickFind.connected(p: 8, q: 9)) // true
+print(quickFind.connected(p: 5, q: 0)) // false
+quickFind.union(p: 5, q: 0)
+quickFind.union(p: 7, q: 2)
+quickFind.union(p: 6, q: 1)
+print(quickFind.connected(p: 9, q: 0)) // false
+print(quickFind.connected(p: 2, q: 0)) // true

@@ -155,6 +155,29 @@ hasCycle(nodeA) // Returns true (because there's a cycle!)
 
 **Real-world analogy:** Imagine you're following someone in a car, and they're driving in circles. If you drive twice as fast as them, you'll eventually catch up to them. But if they're driving in a straight line, you'll never catch up because you'll reach the end first. That's exactly how this algorithm works!
 
+### 🔗 Quick Union-Find Algorithm - The "Dynamic Connectivity" Solver
+**Time Complexity:** Union: O(n), Connected: O(1) - Because we're trading union speed for query speed!
+**Space Complexity:** O(n) - We store one integer per element, like a minimalist ID system
+
+```swift
+var quickFind = QuickFind(size: 10)
+quickFind.union(p: 4, q: 3)  // Connect elements 4 and 3
+quickFind.union(p: 3, q: 8)  // Connect elements 3 and 8 (now 4, 3, 8 are all connected)
+quickFind.connected(p: 8, q: 4) // Returns true (because they're connected through 3)
+```
+
+**How it works:** This is a Union-Find (Disjoint Set) data structure that tracks connectivity between elements. Each element starts in its own component, and we can merge components using `union()`. The Quick-Find approach stores the component ID for each element directly in an array, making queries super fast but unions slower.
+
+**The magic:** We maintain an array where `data[i]` represents the component ID of element `i`. When we union two elements, we change all elements in one component to match the other component's ID. It's like having a group chat where everyone gets the same group name!
+
+**Why it's useful:** Perfect for problems where you need to quickly check if two elements are connected, like:
+- Social network connectivity (are two people connected through friends?)
+- Percolation problems (does water flow from top to bottom?)
+- Image processing (connected component labeling)
+- Network connectivity analysis
+
+**Real-world analogy:** Imagine you have a bunch of islands, and you build bridges between them. The Union-Find structure helps you quickly answer questions like "Can I travel from Island A to Island B?" The Quick-Find approach is like giving every connected group of islands the same postal code - you can instantly tell if two islands share mail service, but updating the postal codes when you build a new bridge takes time.
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -209,6 +232,18 @@ nodeB.next = nodeC
 nodeC.next = nodeB  // Creates cycle
 print("Has cycle: \(hasCycle(nodeA))")                     // true
 print("Has cycle: \(hasCycle(createLinkedList([1, 2, 3])))") // false
+
+// Test your Union-Find (QuickFind) skills
+var quickFind = QuickFind(size: 10)
+quickFind.union(p: 4, q: 3)
+quickFind.union(p: 3, q: 8)
+quickFind.union(p: 6, q: 5)
+print("Connected 8-4: \(quickFind.connected(p: 8, q: 4))") // true (through 3)
+print("Connected 5-0: \(quickFind.connected(p: 5, q: 0))") // false
+quickFind.union(p: 5, q: 0)
+quickFind.union(p: 7, q: 2)
+quickFind.union(p: 6, q: 1)
+print("Connected 2-0: \(quickFind.connected(p: 2, q: 0))") // true (through multiple connections)
 ```
 
 ## 🤓 Why Did I Make This?
