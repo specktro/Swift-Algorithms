@@ -178,6 +178,29 @@ quickFind.connected(p: 8, q: 4) // Returns true (because they're connected throu
 
 **Real-world analogy:** Imagine you have a bunch of islands, and you build bridges between them. The Union-Find structure helps you quickly answer questions like "Can I travel from Island A to Island B?" The Quick-Find approach is like giving every connected group of islands the same postal code - you can instantly tell if two islands share mail service, but updating the postal codes when you build a new bridge takes time.
 
+### 🌳 Quick Union Algorithm - The "Tree-Building" Connectivity Solver
+**Time Complexity:** Union: O(tree height), Connected: O(tree height) - Better union performance than Quick-Find!
+**Space Complexity:** O(n) - We store one parent pointer per element, like a family tree registry
+
+```swift
+var quickUnion = QuickUnion(size: 10)
+quickUnion.union(p: 4, q: 3)  // Connect 4 and 3 (3 becomes parent of 4's tree)
+quickUnion.union(p: 3, q: 8)  // Connect 3 and 8 (8 becomes parent of the merged tree)
+quickUnion.connected(p: 4, q: 8) // Returns true (both have same root: 8)
+```
+
+**How it works:** This is the tree-based approach to Union-Find! Instead of storing component IDs directly, we store parent pointers to form trees. Each element points to its parent, and the root of each tree represents the component. To check connectivity, we climb up to the roots and see if they're the same.
+
+**The magic:** We maintain a forest of trees where `data[i]` represents the parent of element `i`. If `data[i] == i`, then `i` is a root. When we union two elements, we make the root of one tree point to the root of the other tree. It's like merging family trees - you connect the patriarchs/matriarchs!
+
+**Why it's better than Quick-Find:** Union operations are much faster because we only change one parent pointer instead of updating all elements in a component. However, queries might be slower if the trees become tall and skinny.
+
+**The trade-off:**
+- **Quick-Find:** Fast queries O(1), slow unions O(n) - like having a phone directory where everyone's listed by group, but reorganizing when groups merge takes forever
+- **Quick-Union:** Potentially faster unions O(log n average), queries depend on tree height - like having a corporate hierarchy where you follow the chain of command to find the CEO
+
+**Real-world analogy:** Imagine a corporate merger scenario. In Quick-Find, when two companies merge, everyone immediately gets new business cards with the same company logo. In Quick-Union, people keep their current boss, but the CEOs establish who reports to whom - it's faster to merge, but finding the ultimate boss might require following the chain of command up several levels.
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -244,6 +267,20 @@ quickFind.union(p: 5, q: 0)
 quickFind.union(p: 7, q: 2)
 quickFind.union(p: 6, q: 1)
 print("Connected 2-0: \(quickFind.connected(p: 2, q: 0))") // true (through multiple connections)
+
+// Test your Union-Find (QuickUnion) skills
+var quickUnion = QuickUnion(size: 10)
+quickUnion.union(p: 4, q: 3)  // 4 -> 3
+quickUnion.union(p: 3, q: 8)  // 3 -> 8, so 4 -> 3 -> 8
+quickUnion.union(p: 6, q: 5)  // 6 -> 5
+quickUnion.union(p: 9, q: 4)  // 9 -> 4 -> 3 -> 8
+print("Connected 8-9: \(quickUnion.connected(p: 8, q: 9))") // true (same root: 8)
+print("Connected 5-0: \(quickUnion.connected(p: 5, q: 0))") // false
+quickUnion.union(p: 5, q: 0)  // 5 -> 0
+quickUnion.union(p: 7, q: 2)  // 7 -> 2
+quickUnion.union(p: 6, q: 1)  // Find root of 6 (which is 0), connect to root of 1 (which is 1)
+print("Connected 9-0: \(quickUnion.connected(p: 9, q: 0))") // false (different roots)
+print("Connected 2-0: \(quickUnion.connected(p: 2, q: 0))") // true (connected through tree)
 ```
 
 ## 🤓 Why Did I Make This?
