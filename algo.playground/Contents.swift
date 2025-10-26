@@ -1,6 +1,10 @@
 import Foundation
 
-/// A simple binary search implementation
+/// Performs binary search on a sorted array
+/// - Parameters:
+///   - arr: A sorted array of integers to search in
+///   - item: The target value to find
+/// - Returns: The index of the item if found, -1 otherwise
 func binarySearch(arr: [Int] ,item: Int) -> Int {
     var low = 0
     var high = arr.count - 1
@@ -27,7 +31,9 @@ print("=== BINARY SEARCH TESTING ===")
 print(binarySearch(arr: myList, item: 5))
 print(binarySearch(arr: myList, item: -1))
 
-/// Sum recursive function
+/// Calculates the sum of all numbers in an array using recursion
+/// - Parameter nums: An array of integers to sum
+/// - Returns: The total sum of all elements in the array
 func recursiveSum(_ nums: [Int]) -> Int {
     if nums.isEmpty {
         return 0
@@ -39,7 +45,12 @@ func recursiveSum(_ nums: [Int]) -> Int {
 print("\n=== TWO RECURSIVE SUM TESTING ===")
 print("Recursive sum: \(recursiveSum([2, 4, 6]))")
 
-/// Two sum together
+/// Finds two numbers in an array that sum to a target value (brute force approach)
+/// - Parameters:
+///   - nums: An array of integers
+///   - target: The target sum value
+/// - Returns: A tuple containing the indices of the two numbers, or (-1, -1) if not found
+/// - Complexity: O(n²) time, O(1) space
 func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int) {
     for i in 0..<nums.count {
         for j in (i + 1)..<nums.count {
@@ -54,7 +65,12 @@ func twoSumV1(_ nums: [Int], _ target: Int) -> (Int, Int) {
 print("\n=== TWO SUM NOT OPTIMIZED TESTING ===")
 print("Two numbers sum target: \(twoSumV1([2, 7, 11, 15], 9))")
 
-/// Two sum with dictionary
+/// Finds two numbers in an array that sum to a target value (optimized with hash map)
+/// - Parameters:
+///   - nums: An array of integers
+///   - target: The target sum value
+/// - Returns: A tuple containing the indices of the two numbers, or (-1, -1) if not found
+/// - Complexity: O(n) time, O(n) space
 func twoSumV2(_ nums: [Int], _ target: Int) -> (Int, Int) {
     var map: [Int: Int] = [:]
     
@@ -73,7 +89,10 @@ func twoSumV2(_ nums: [Int], _ target: Int) -> (Int, Int) {
 print("\n=== TWO SUM NUMBER WITH DICTIONARY TESTING ===")
 print("Two numbers sum target with dictionary: \(twoSumV2([2, 7, 11, 15], 9))") //
 
-/// Balanced parenthesis
+/// Checks if a string has balanced parentheses, brackets, and braces
+/// - Parameter s: A string containing brackets to validate
+/// - Returns: True if all brackets are properly balanced, false otherwise
+/// - Complexity: O(n) time, O(n) space
 func isBalanced(_ s: String) -> Bool {
     var stack: [Character] = []
     let pairs: [Character: Character] = [
@@ -101,7 +120,10 @@ print("Is balanced: \(isBalanced("()"))")       // true
 print("Is balanced: \(isBalanced("()[]{}"))")   // true
 print("Is balanced: \(isBalanced("(]{}"))")     // false
 
-/// Balanced parenthesis - OPTIMIZED VERSION
+/// Checks if a string has balanced parentheses with early termination optimizations
+/// - Parameter s: A string containing brackets to validate
+/// - Returns: True if all brackets are properly balanced, false otherwise
+/// - Complexity: O(n) time, O(n) space with early termination for common cases
 func isBalancedOptimized(_ s: String) -> Bool {
     var stack: [Character] = []
     
@@ -165,7 +187,10 @@ print("Is balanced: \(isBalancedOptimized("({[]})"))")      // true
 print("Is balanced: \(isBalancedOptimized("({[}])"))")      // false
 
 
-/// Maximum sub array - OPTIMIZED VERSION
+/// Finds the contiguous subarray with the largest sum using Kadane's algorithm
+/// - Parameter nums: An array of integers (can contain negative numbers)
+/// - Returns: The subarray with the maximum sum
+/// - Complexity: O(n) time, O(1) space (excluding output array)
 func maximumSubArray(_ nums: [Int]) -> [Int] {
     // Edge case: empty array
     guard !nums.isEmpty else { return [] }
@@ -205,7 +230,10 @@ print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
 subarray = [1, -2, 3, 4]
 print("Maximum subarray from \(subarray): \(maximumSubArray(subarray))")
 
-/// Maximum sub array - ULTRA OPTIMIZED (returns just the sum, not the array)
+/// Finds the maximum sum of a contiguous subarray using Kadane's algorithm (sum-only version)
+/// - Parameter nums: An array of integers (can contain negative numbers)
+/// - Returns: The maximum sum value
+/// - Complexity: O(n) time, O(1) space
 func maximumSubArraySum(_ nums: [Int]) -> Int {
     guard !nums.isEmpty else { return 0 }
     
@@ -227,7 +255,10 @@ print("Max sum from [-1, -2, -3]: \(maximumSubArraySum([-1, -2, -3]))")
 print("Max sum from [5]: \(maximumSubArraySum([5]))")
 print("Max sum from []: \(maximumSubArraySum([]))")
 
-/// Palindrome string validation
+/// Validates if a string is a palindrome (ignoring case and non-alphanumeric characters)
+/// - Parameter s: The string to validate
+/// - Returns: True if the string reads the same forwards and backwards, false otherwise
+/// - Complexity: O(n) time, O(n) space
 func isPalindrome(_ s: String) -> Bool {
     let cleaned = s.lowercased().filter { $0.isLetter || $0.isNumber }
     let chars = Array(cleaned)
@@ -252,8 +283,7 @@ print(isPalindrome("race a car"))                       // false
 print(isPalindrome(""))                                 // true
 print(isPalindrome("a"))                                // true
 
-/// Reverse linked list algorithm
-// Node definition
+/// Node definition for a singly linked list
 final class ListNode {
     var val: Int
     var next: ListNode?
@@ -264,6 +294,10 @@ final class ListNode {
     }
 }
 
+/// Reverses a singly linked list iteratively
+/// - Parameter head: The head node of the linked list
+/// - Returns: The new head of the reversed linked list
+/// - Complexity: O(n) time, O(1) space
 func reverseList(_ head: ListNode?) -> ListNode? {
     var prev: ListNode? = nil
     var current = head
@@ -278,7 +312,9 @@ func reverseList(_ head: ListNode?) -> ListNode? {
     return prev  // prev is now the new head!
 }
 
-// Helper function to create a linked list from array
+/// Creates a linked list from an array of values
+/// - Parameter values: An array of integers to convert into a linked list
+/// - Returns: The head node of the created linked list, or nil if the array is empty
 func createLinkedList(_ values: [Int]) -> ListNode? {
     guard !values.isEmpty else { return nil }
     
@@ -293,7 +329,9 @@ func createLinkedList(_ values: [Int]) -> ListNode? {
     return head
 }
 
-// Helper function to convert linked list back to array for easy testing
+/// Converts a linked list to an array for easy testing and validation
+/// - Parameter head: The head node of the linked list
+/// - Returns: An array containing all values from the linked list in order
 func linkedListToArray(_ head: ListNode?) -> [Int] {
     var result: [Int] = []
     var current = head
@@ -306,7 +344,8 @@ func linkedListToArray(_ head: ListNode?) -> [Int] {
     return result
 }
 
-// Helper function to print linked list
+/// Prints a linked list in a readable format (e.g., "1 → 2 → 3 → nil")
+/// - Parameter head: The head node of the linked list to print
 func printLinkedList(_ head: ListNode?) {
     var current = head
     var result: [String] = []
@@ -385,7 +424,10 @@ let list6 = createLinkedList([1, 2, 3])
 print("Original: ", terminator: "")
 printLinkedList(list6)
 
-/// Detect cycles in a linked list
+/// Detects if a linked list contains a cycle using Floyd's Tortoise and Hare algorithm
+/// - Parameter head: The head node of the linked list
+/// - Returns: True if a cycle exists, false otherwise
+/// - Complexity: O(n) time, O(1) space
 func hasCycle(_ head: ListNode?) -> Bool {
     var slow: ListNode? = head
     var fast: ListNode? = head
@@ -457,3 +499,81 @@ quickUnion.union(p: 7, q: 2)
 quickUnion.union(p: 6, q: 1)
 print(quickUnion.connected(p: 9, q: 0)) // false
 print(quickUnion.connected(p: 2, q: 0)) // true
+
+print("\n=== WEIGHTED QUICK-UNION ALGORTIHM TESTING ===")
+var weightedQuickUnion = WeightedQuickUnion(size: 10)
+weightedQuickUnion.union(p: 4, q: 3)
+weightedQuickUnion.union(p: 3, q: 8)
+weightedQuickUnion.union(p: 6, q: 5)
+weightedQuickUnion.union(p: 9, q: 4)
+weightedQuickUnion.union(p: 1, q: 2)
+print(weightedQuickUnion.connected(p: 8, q: 9)) // true
+print(weightedQuickUnion.connected(p: 5, q: 0)) // false
+weightedQuickUnion.union(p: 5, q: 0)
+weightedQuickUnion.union(p: 7, q: 2)
+weightedQuickUnion.union(p: 6, q: 1)
+print(weightedQuickUnion.connected(p: 9, q: 0)) // false
+print(weightedQuickUnion.connected(p: 2, q: 0)) // true
+
+/// Performs breadth-first search on a graph
+/// - Parameters:
+///   - node: The starting node
+///   - graph: An adjacency list representation of the graph
+///   - condition: A closure that returns true when the target is found
+/// - Returns: True if a node matching the condition is found, false otherwise
+func simpleBFS(node: String, in graph: [String: [String]], where condition: @escaping (String) -> Bool) -> Bool {
+    // Early check: does the starting node match?
+    guard !condition(node) else {
+        print("Found -> \(node)")
+        return true
+    }
+
+    var queue = [String]()
+    var visited = Set<String>()
+
+    // Mark starting node as visited and add its neighbors
+    visited.insert(node)
+    queue.append(contentsOf: graph[node] ?? [])
+
+    while !queue.isEmpty {
+        let current = queue.removeFirst()
+
+        // Skip if already visited
+        guard !visited.contains(current) else { continue }
+
+        // Mark as visited
+        visited.insert(current)
+
+        // Check condition
+        if condition(current) {
+            print("Found -> \(current)")
+            return true
+        }
+
+        // Add unvisited neighbors to queue
+        if let neighbors = graph[current] {
+            for neighbor in neighbors where !visited.contains(neighbor) {
+                queue.append(neighbor)
+            }
+        }
+    }
+
+    return false
+}
+
+print("\n=== SIMPLE BFS TESTING ===")
+var graph = [String: [String]]()
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
+
+let condition: (String) -> Bool = { name in
+    name.last == "m"
+}
+
+print("Found condition in graph: \(simpleBFS(node: "you", in: graph, where: condition))")

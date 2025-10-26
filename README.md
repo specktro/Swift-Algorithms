@@ -201,6 +201,70 @@ quickUnion.connected(p: 4, q: 8) // Returns true (both have same root: 8)
 
 **Real-world analogy:** Imagine a corporate merger scenario. In Quick-Find, when two companies merge, everyone immediately gets new business cards with the same company logo. In Quick-Union, people keep their current boss, but the CEOs establish who reports to whom - it's faster to merge, but finding the ultimate boss might require following the chain of command up several levels.
 
+### 🔍 Breadth-First Search (BFS) - The "Level-by-Level Explorer" Algorithm
+**Time Complexity:** O(V + E) - Where V is vertices and E is edges, because we visit every node and edge once!
+**Space Complexity:** O(V) - We need a queue and a visited set, like keeping a guest list and a waiting line at a party
+
+```swift
+var graph = [String: [String]]()
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+
+let condition: (String) -> Bool = { name in
+    name.last == "m"
+}
+
+simpleBFS(node: "you", in: graph, where: condition) // Returns true, finds "thom"
+```
+
+**How it works:** BFS explores a graph level by level, like ripples spreading in a pond! We use a queue (FIFO - First In, First Out) to keep track of nodes to visit, and a visited set to avoid cycles. We start from a node, check its neighbors, then check their neighbors, and so on. It's the shortest path finder's best friend!
+
+**The magic:** We check if the starting node matches first (early termination!), then add its neighbors to our queue. For each node we visit, we:
+1. Skip if already visited (no infinite loops!)
+2. Mark as visited immediately
+3. Check if it matches our condition
+4. Add its unvisited neighbors to the queue
+
+**Why it's brilliant:** BFS guarantees finding the shortest path in an unweighted graph! If you're looking for the nearest mango seller in your social network, BFS will find the one with the fewest connections away from you. It's like finding the closest coffee shop - you check your street first, then the next street over, then the one after that.
+
+**Real-world uses:**
+- Social networks (find shortest connection between people)
+- GPS navigation (shortest path in road networks)
+- Web crawlers (explore websites level by level)
+- Puzzle solvers (find shortest solution path)
+- Network broadcasting (send data to all connected nodes)
+
+**The key insight:** Unlike DFS (Depth-First Search) which goes deep like a cave explorer, BFS goes wide like a wave spreading outward. It's perfect when you care about finding the closest solution, not just any solution!
+
+### ⚖️ Weighted Quick Union with Path Compression - The "Ultimate" Connectivity Solver
+**Time Complexity:** Union: O(α(n)), Connected: O(α(n)) - Inverse Ackermann function, practically constant!
+**Space Complexity:** O(n) - We store parent pointers plus tree sizes, like a corporate org chart with headcount data
+
+```swift
+var weightedQuickUnion = WeightedQuickUnion(size: 10)
+weightedQuickUnion.union(p: 4, q: 3)  // Weighted merge + path compression
+weightedQuickUnion.union(p: 3, q: 8)  // Trees stay flat due to path compression
+weightedQuickUnion.connected(p: 4, q: 8) // Returns true with nearly O(1) performance
+```
+
+**How it works:** This is the ultimate Union-Find implementation combining TWO powerful optimizations: weighted union (prevents tall trees) AND path compression (flattens trees during traversal). The result is near-optimal performance that's practically constant time for all operations!
+
+**The magic:** We maintain two arrays: `data[]` for parent pointers and `sz[]` for tree sizes. During union, we use weighted strategy (smaller tree under larger). But here's the killer feature: during root finding, we implement path compression by making each node point to its grandparent, progressively flattening the tree!
+
+**Path Compression in Action:** Every time we call `root()`, we do `data[i] = data[data[i]]` which makes each node skip one level up, effectively flattening the tree. After several operations, most nodes point directly to the root, making future operations nearly instantaneous.
+
+**Why it's the ultimate solution:** Combining weighted union with path compression gives us the best of both worlds - we prevent tall trees from forming AND we flatten existing trees over time. It's like having a self-organizing corporate structure that automatically promotes people closer to the CEO while ensuring departments stay balanced!
+
+**Performance comparison:**
+- **Quick-Find:** Union O(n), Connected O(1) - Fast queries, slow unions
+- **Quick-Union:** Union O(tree height), Connected O(tree height) - Could degenerate to O(n) in worst case
+- **Weighted Quick-Union:** Union O(log n), Connected O(log n) - Guaranteed logarithmic performance
+- **Weighted Quick-Union + Path Compression:** Union O(α(n)), Connected O(α(n)) - ULTIMATE: practically constant time!
+
+**Real-world analogy:** Think of military command structures during wartime mergers. Quick-Union might randomly assign who reports to whom, potentially creating inefficient 10-level chains of command. Weighted Quick-Union is like smart military planning - you merge smaller units into larger ones, ensuring balanced hierarchies. But Weighted Quick-Union with Path Compression is like having a self-improving organization where every time someone asks "who's my ultimate commander?", the chain of command automatically gets shorter for everyone involved. It's organizational efficiency that gets better with use!
+
 ## 🎮 How to Use This Playground
 
 1. Open `algo.playground` in Xcode
@@ -281,6 +345,43 @@ quickUnion.union(p: 7, q: 2)  // 7 -> 2
 quickUnion.union(p: 6, q: 1)  // Find root of 6 (which is 0), connect to root of 1 (which is 1)
 print("Connected 9-0: \(quickUnion.connected(p: 9, q: 0))") // false (different roots)
 print("Connected 2-0: \(quickUnion.connected(p: 2, q: 0))") // true (connected through tree)
+
+// Test your Union-Find (WeightedQuickUnion + Path Compression) skills - The ULTIMATE version!
+var weightedQuickUnion = WeightedQuickUnion(size: 10)
+weightedQuickUnion.union(p: 4, q: 3)  // Weighted merge + path compression magic
+weightedQuickUnion.union(p: 3, q: 8)  // Trees self-flatten during operations
+weightedQuickUnion.union(p: 6, q: 5)  // Near-constant time performance
+weightedQuickUnion.union(p: 9, q: 4)  // Path compression keeps trees super flat
+print("Connected 8-9: \(weightedQuickUnion.connected(p: 8, q: 9))") // true (practically O(1))
+print("Connected 5-0: \(weightedQuickUnion.connected(p: 5, q: 0))") // false
+weightedQuickUnion.union(p: 5, q: 0)  // Ultimate optimization in action
+weightedQuickUnion.union(p: 7, q: 2)  // Self-improving data structure
+weightedQuickUnion.union(p: 6, q: 1)  // Gets faster with more operations
+print("Connected 9-0: \(weightedQuickUnion.connected(p: 9, q: 0))") // false (lightning fast!)
+print("Connected 2-0: \(weightedQuickUnion.connected(p: 2, q: 0))") // true (inverse Ackermann time!)
+
+// Test your BFS (Breadth-First Search) skills - Level-by-level exploration!
+var graph = [String: [String]]()
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
+
+// Find someone whose name ends with 'm'
+let condition: (String) -> Bool = { name in name.last == "m" }
+print("Found match: \(simpleBFS(node: "you", in: graph, where: condition))") // true (finds "thom")
+
+// Find someone whose name starts with 'p'
+let startsWithP: (String) -> Bool = { name in name.first == "p" }
+print("Found match: \(simpleBFS(node: "you", in: graph, where: startsWithP))") // true (finds "peggy")
+
+// Try to find someone named "carlos" (doesn't exist)
+let isCarlos: (String) -> Bool = { name in name == "carlos" }
+print("Found match: \(simpleBFS(node: "you", in: graph, where: isCarlos))") // false
 ```
 
 ## 🤓 Why Did I Make This?
